@@ -1,0 +1,29 @@
+﻿
+@{
+    Layout = null;
+    ViewBag.Title = "Album Detail";
+}
+
+
+<h2>Music CD: {{Album.Title}}</h2>
+
+<p>
+    <img alt="" src="/Content/Images/placeholder.gif" />
+</p>
+<div id="Album-details">
+    <p>
+        <em>Genre:</em>
+        {{Genre.Name}}
+    </p>
+    <p>
+        <em>Artist:</em>
+        {{Artist.Name}}
+    </p>
+    <p>
+        <em>Price:</em>
+        {{Album.Price}}
+    </p>
+    <p class="button">
+        <a href="#/AddtoCart/{{Album.AlbumId}}">Add to Cart</a>
+    </p>
+</div>

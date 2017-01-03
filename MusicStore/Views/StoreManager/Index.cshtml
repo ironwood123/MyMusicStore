@@ -1,0 +1,75 @@
+﻿@model PagedList.IPagedList<MusicStore.Models.Album>
+@using PagedList.Mvc;
+@using Helpers;
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+
+@using (Html.BeginForm("Index", "StoreManager", FormMethod.Get)) {
+    <p>
+        <label>Find by Title:  </label> @Html.TextBox("SearchString", ViewBag.CurrentFilter as string, htmlAttributes: new { @class = "input-box", style = "width: 250px" })
+        <input type="submit" value="Search" class="button button-big" />
+    </p>
+}
+<table width="100%" border="0" cellpadding="0" cellspacing="0" class="data-table">
+    <caption>
+        Music Store Catalog
+    </caption>
+    <tr>
+        <th scope="col">
+            Artist Name
+        </th>
+        <th scope="col">
+            @Html.ActionLink("Genre Name", "Index", new { sortOrder = ViewBag.GenreSortParm } )
+        </th>
+        <th scope="col">
+            @Html.ActionLink("Price", "Index", new { sortOrder= ViewBag.PriceSortParm })
+        </th>
+        <th scope="col">
+            @*@Html.DisplayNameFor(model => model)*@
+            Title
+        </th>
+        <th scope="col">
+            @*@Html.DisplayNameFor(model => model.AlbumArtUrl)*@
+            CD Art Url
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model)
+{
+    <tr class="row-alternating">
+        <td>
+            @Html.DisplayFor(modelItem => item.Artist.Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Genre.Name)              
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Price)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Title)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.AlbumArtUrl)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.AlbumId }) |
+            @Html.ActionLink("Details", "Details", new { id=item.AlbumId }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.AlbumId })
+        </td>
+    </tr>
+}
+
+</table>
+<br />
+Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+@Html.PagedListPager(Model, page => Url.Action("Index", new { page, sortOrder=ViewBag.CurrentSort, currentFilter=ViewBag.CurrentFilter}))

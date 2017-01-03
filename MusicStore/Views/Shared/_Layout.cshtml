@@ -1,0 +1,118 @@
+﻿@using Helpers;
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <meta name="description" content="Description of your web page goes here." />
+    <meta name="keywords" content="Keywords for you web page go here. Each keyword or group of keyword phrases are separated by a comma. Keep this  list short and relevant to the content and title of this specific page." />
+    <title>@Html.Encode(ViewData["Title"])</title>
+    <link rel="shortcut icon" href="@Url.Content("~/Content/images/favicon.ico")" />
+    <link href="@Url.Content("~/Content/Site.css")" rel="stylesheet" type="text/css" media="interactive, braille, emboss, handheld, projection, screen, tty, tv" />
+    <link href="@Url.Content("~/Content/print-styles.css")" rel="stylesheet" type="text/css" media="print" />
+    <link href="@Url.Content("~/Content/Site.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Content/kendo/2016.2.607/kendo.common.min.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Content/kendo/2016.2.607/kendo.mobile.all.min.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Content/kendo/2016.2.607/kendo.dataviz.min.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Content/kendo/2016.2.607/kendo.default.min.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Content/kendo/2016.2.607/kendo.dataviz.default.min.css")" rel="stylesheet" type="text/css" />
+    <script src="@Url.Content("~/Scripts/kendo/2016.2.607/jquery.min.js")"></script>
+    <script src="@Url.Content("~/Scripts/kendo/2016.2.607/angular.min.js")"></script>
+    <script src="@Url.Content("~/Scripts/kendo/2016.2.607/jszip.min.js")"></script>
+    <script src="@Url.Content("~/Scripts/kendo/2016.2.607/kendo.all.min.js")"></script>
+</head>
+<body>
+    <div class="none"><a href="">skip to the main content area of this page</a></div>
+    <div class="header-container">
+        <div class="nav-login">
+            <ul>
+                <li class="first" style="display:inline-block">@Html.Partial("_LoginPartial")</li>
+                <li class="first" style="display:inline-block">@Html.ActionLink("Register", "Register", "Account")</li>
+            </ul>
+        </div>
+        <div class="logo">
+            <img src="~/Content/images/logo.png" alt="" />
+            <a href="@Url.Action(" Index", "Home")">SOUNDSKOOL</a>
+        </div>
+        <div class="clear"></div>
+    </div>
+    <div class="poster-container-no-image">
+        <div class="poster-inner"> </div>
+    </div>
+    <div class="nav-main">
+        <ul>
+            @{
+                        if (Html.IsCurrentAction("Index", "Home"))
+                        {
+                            <li class="first active"><span class="active"></span>@Html.ActionLink("Home", "Index", "Home")</li>
+                        }
+                        else
+                        {
+                            <li class="first">@Html.ActionLink("Home", "Index", "Home")</li>
+                        }
+                        if (Html.IsCurrentAction("Index", "StoreManager"))
+                        {
+                            <li class="active"><span class="active"></span>@Html.ActionLink("Catalog", "Index", "StoreManager")</li>
+                        }
+                        else
+                        {
+                             <li>@Html.ActionLink("Catalog", "Index", "StoreManager")</li>
+                        }
+
+
+                        if (Html.IsCurrentAction("CartSummary", "ShoppingCart"))
+                        {
+                            <li class="active"><span class="active"></span>@{Html.RenderAction("CartSummary", "ShoppingCart");}</li>
+                        }
+                        else
+                        {
+                            <li>@{Html.RenderAction("CartSummary", "ShoppingCart");}</li>
+                        }
+
+            }
+        </ul>
+
+
+    </div>
+    <div class="content-container">
+        <div class="content-container-inner">
+
+            <div class="content-main">
+                @RenderSection("featured", required: false)
+                <section class="content-wrapper main-content clear-fix">
+                    @RenderBody()
+                </section>
+            </div>
+            <div class="content-left">
+                <div class="side-bucket">
+                    @{Html.RenderAction("GenreMenu", "Store");}
+                </div>
+            </div>
+            <div class="content-right">
+                @*<h2 class="first">User Login</h2>
+                <label for="username">Username</label>
+                <input class="input-box" id="username" type="text" />
+                <label for="password">Password</label>
+                <input class="input-box" id="password" type="password" />
+                <input class="button" name="Login" type="button" value="Login" />
+                <p class="forgot-password"><a href="#">Forgot your password?</a></p>*@
+                <div class="ads"> <a href="#"><img src="../../Content/images/ad.gif" alt="ad" /></a> </div>
+            </div>
+            <div class="clear"></div>
+        </div>
+    </div>
+    <div class="footer">
+        <div class="nav-footer">
+            <ul>
+                <li class="first">@Html.ActionLink("Home", "Index", "Home")</li>
+                <li>@Html.ActionLink("About", "About", "Home")</li>
+            </ul>
+            <p class="copyright">&copy; 2016 SOUNDSKOOL</p>
+        </div>
+    </div>
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+</body>
+</html>

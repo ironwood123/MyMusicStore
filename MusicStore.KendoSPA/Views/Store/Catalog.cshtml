@@ -1,0 +1,181 @@
+﻿@{
+    Layout = null;
+    ViewBag.Title = "CD Catalog";
+}
+
+<style type="text/css">
+    .k-edit-form-container {
+        width: 550px;
+    }
+</style>
+<table align="center" width="70%">
+    <tr>
+        <td>
+            <table>
+                <tr>
+                    <th><span id="lblAlbumName">CD Title</span></th>
+                </tr>
+                <tr>
+                    <td><input id="titleSearch" type="text" class="k-input k-textbox" /></td>
+                </tr>
+            </table>
+        </td>
+        <td>&nbsp;</td>
+        <td valign="bottom"><button id="btnSearch" class="k-button">Search</button></td>
+    </tr>
+    <tr>
+        <td colspan="3">
+            <br /><br />
+            <div id="grid"></div>
+            <ul id="contextmenu"></ul>
+        </td>
+    </tr>
+</table>
+<script src="~/js/dropdown.js"></script>
+<script type="text/javascript">
+    $(document).ready(onReady);
+    var grid;
+
+    function onReady()
+    {
+        $("#grid").hide();
+        $("#btnSearch").kendoButton({
+            click: onSearch
+        });
+
+        var dataSource = new kendo.data.DataSource({
+            transport: {
+                read: {
+                    url: "https://localhost:44301/api/Album/catalogalbums",
+                    dataType: "json",
+                    type: "POST",
+                    contentType: "application/json; charset=utf-8"
+                },
+                update: {
+                    url: function (e) {
+                        return "https://localhost:44301/api/Album/" + e.AlbumId
+                    },
+                    type: "PUT",
+                    dataType: "json"
+                },
+                create: {
+                    url: "https://localhost:44301/api/Album/",
+                    type: "POST",
+                    dataType: 'json'
+                },
+                destroy: {
+                    url: function (e) {
+                        return "https://localhost:44301/api/Album/" + e.AlbumId
+                    },
+                    type: "Delete",
+                    dataType: "json"
+                },
+                parameterMap: function (options, operation) {
+                    if (options.models) {
+                        console.log(options);
+                        return { models: kendo.stringify(options.models) };
+                    } else if (operation == "read") {
+                        return kendo.stringify(options);
+                    } else {
+                        return options;
+                    }
+
+                }
+            },
+            schema: {
+                data: "Items",
+                total: "Count",
+                model: {
+                    id: "AlbumId",
+                    fields: {
+                        AlbumId: { type: "number", editable: true, nullable: false },
+                        Title: { type: "string" },
+                        GenreId: { type: "number" },
+                        ArtistId: { type: "number" },
+                        Price: { type: "number" },
+                        AlbumArtUrl: { type: "string" }
+                    }
+                }
+            },
+            pageSize: 10,
+            serverPaging: true,
+            serverSorting: true,
+            serverFiltering: true,
+            batch: false
+        });
+
+        $("#grid").kendoGrid({
+            autoBind: false,
+            columns: [
+              { field: "Title", title: "Title", width: "200px" },
+              { field: "GenreId", title: "Genre", width: "50px", editor: dropdowncol.GenreDropDownEditor, template: "#= dropdowncol.genreName(GenreId) #" },
+              { field: "ArtistId", title: "Artist Name", width: "100px", editor: dropdowncol.ArtistDropDownEditor, template: "#= dropdowncol.artistName(ArtistId) #" },
+              { field: "Price", title: "Price", width: "50px" },
+              { field: "AlbumArtUrl", title: "CD Art Url", width: "200px" }],
+
+            toolbar: [{ name: "create", template: '<a class="k-button k-button-icontext k-grid-add" href="\\#">Add New</a>' }],
+            dataSource: dataSource,
+            selectable: true,
+            scrollable: true,
+            sortable: {
+                mode: "multiple",
+                allowUnsort: true
+            },
+            groupable: true,
+            pageable: {
+                input: true,
+                numeric: true
+            },
+            save: function () {
+                this.refresh();
+            },
+            editable: { mode: "popup", confirmation: "Are you sure that you want to delete this record?" }
+        });
+
+        var contextmenu = $("#contextmenu").kendoContextMenu({
+            target: "#grid",
+            showOn: "click",
+            animation: {
+                open: { effects: "fadeIn" },
+                duration: 500
+            },
+            dataSource: [{ text: "Edit" }, { text: "Delete" }],
+            filter: "tr",
+            select: function (e) {
+                var dataItem = grid.dataSource.getByUid($(e.target).attr("data-uid"));
+                if (e.item.childNodes.item(0).innerHTML == "Edit") {
+                    if ($(e.target).hasClass("k-state-selected")) {
+                        this.target.data("kendoGrid").editRow($(e.target));
+                    }
+                }
+                else if (e.item.childNodes.item(0).innerHTML == "Delete") {
+                    if ($(e.target).hasClass("k-state-selected")) {
+                        alert("Are you sure that you want to delete this record?");
+                        grid.dataSource.remove(dataItem);
+                        grid.dataSource.sync();
+                        return true;
+                    }
+                }
+            }
+        }).data("kendoContextMenu");
+
+    }
+    function onSearch()
+    {  
+        var title = $("#titleSearch").val();
+        $('#grid').show();
+        grid = $("#grid").data("kendoGrid");
+        console.log(title);
+        grid.dataSource.query({
+            page: 1,
+            pageSize: 10,
+            filter: {
+                    logic: "and",
+                    filters: [
+                      { field: "Title", operator: "startswith", value: title }
+                    ]
+            }
+        });
+        grid.dataSource.read();
+    }
+</script>

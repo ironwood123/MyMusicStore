@@ -1,0 +1,25 @@
+﻿@model List<MusicStore.Models.Album>
+@{
+    ViewBag.Title = "Home Page";
+}
+
+<div><a href="#"><img src="../../Content/images/Promotion.png" alt="ad" /></a></div><br />
+
+<h3>Top five Albums Sold</h3>
+
+<ul id="album-list">
+    @foreach (var album in Model)
+    {
+        <li>
+            <a href="@Url.Action("Details", "Store", new { id = album.AlbumId })">
+                <img alt="@album.Title" src="@album.AlbumArtUrl" />
+                <span>@album.Title</span>
+            </a>
+        </li>
+    }
+</ul>
+<script>
+    $(function () {
+        $("#panelbar").kendoPanelBar();
+    });
+</script>

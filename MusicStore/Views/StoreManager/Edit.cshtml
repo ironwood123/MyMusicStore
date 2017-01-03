@@ -1,0 +1,70 @@
+﻿@model MusicStore.Models.Album
+
+@{
+    ViewBag.Title = "Edit";
+}
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    <fieldset>
+        <legend><h2>Edit</h2></legend>
+        <div class="form-horizontal">
+            <h4>Music CD: @Model.Title</h4>
+            <hr />
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            @Html.HiddenFor(model => model.AlbumId)
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.GenreId, "Genre", htmlAttributes: new { @class = "label" })
+                <div class="col-md-10">
+                    @Html.DropDownList("GenreId", null, htmlAttributes: new { @class = "dropdownlist" })
+                    @Html.ValidationMessageFor(model => model.GenreId, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.ArtistId, "Artist Name", htmlAttributes: new { @class = "label col-md-2" })
+                <div class="col-md-10">
+                    @Html.DropDownList("ArtistId", null, htmlAttributes: new { @class = "dropdownlist" })
+                    @Html.ValidationMessageFor(model => model.ArtistId, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Price, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Price, new { htmlAttributes = new { @class = "input-box" } })
+                    @Html.ValidationMessageFor(model => model.Price, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Title, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Title, new { htmlAttributes = new { @class = "input-box", style = "width: 250px" } })
+                    @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.AlbumArtUrl, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.AlbumArtUrl, new { htmlAttributes = new { @class = "input-box", style = "width: 350px" } })
+                    @Html.ValidationMessageFor(model => model.AlbumArtUrl, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="Save" class="button button-big" />
+                </div>
+            </div>
+        </div>
+        </fieldset>
+  }
+
+        <div>
+            @Html.ActionLink("Back to List", "Index")
+        </div>

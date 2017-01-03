@@ -1,0 +1,88 @@
+﻿
+@{
+    Layout = null;
+    ViewBag.Title = "AlbumsByGenre";
+}
+
+<h2>AlbumsByGenre</h2>
+
+<div id="listView" style="max-height:400px;overflow:auto;"></div>
+<div class="k-pager-wrap">
+    <div id="pager"></div>
+</div>
+
+<script type="text/x-kendo-tmpl" id="template">
+    <div class="product">
+        <img src="#:AlbumArtUrl#" />
+        <a href="\#/AlbumDetail/#:AlbumId#"><h3>#:Title#</h3></a>
+    </div>
+</script>
+
+
+<script>
+var url = window.location.href;
+var GenreId = url.substring(url.lastIndexOf("/") + 1);
+   
+var dataSource = new kendo.data.DataSource({
+    transport: {
+        read: {
+            url: function (e) { return "https://localhost:44301/api/AlbumByGenre/" + GenreId; },
+            dataType: "json"
+        }
+    },
+    pageSize: 9
+});
+
+$("#pager").kendoPager({
+    dataSource: dataSource
+});
+
+$("#listView").kendoListView({
+    dataSource: dataSource,
+    template: kendo.template($("#template").html()),
+});
+</script>
+
+<style>
+    .alt {
+        background-color: #EEE;
+    }
+        .product
+        {
+            float: left;
+            width: 220px;
+            height: 110px;
+            margin: 0;
+            padding: 5px;
+            cursor: pointer;
+        }
+        .product img
+        {
+            float: left;
+            width: 110px;
+            height: 110px;
+        }
+        .product h3
+        {
+            margin: 0;
+            padding: 10px 0 0 10px;
+            font-size: .9em;
+            overflow: hidden;
+            font-weight: normal;
+            float: left;
+            max-width: 100px;
+            text-transform: uppercase;
+        }
+        .k-pager-wrap
+        {
+            border-top: 0;
+        }
+        .demo-section .k-listview:after
+        {
+            content: ".";
+            display: block;
+            height: 0;
+            clear: both;
+            visibility: hidden;
+        }
+</style>

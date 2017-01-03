@@ -1,0 +1,15 @@
+<div kendo-grid k-options="mainGridOptions"></div>
+<br />
+<br />
+<div id="listview-wrapper" ng-show="details" ng-controller="AppController">
+    <div kendo-list-view="listView">
+        <div class="product" k-template>
+            <img ng-src="http://demos.telerik.com/kendo-ui/content/web/foods/{{dataItem.ProductID}}.jpg" alt=" {{dataItem.ProductName}} image" />
+            <h3>Product: {{ dataItem.ProductName }}</h3>
+            <p>Price: {{ dataItem.UnitPrice | currency }}</p>
+            <p>Stock: {{ dataItem.UnitsInStock }}</p>
+            <button class="k-button" ng-click="hideDetails()">Close details</button>
+        </div>
+    </div>
+</div>
+

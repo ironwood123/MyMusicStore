@@ -1,0 +1,89 @@
+﻿
+@{
+    Layout = null;
+}
+
+
+<style>
+    .demo-section > div {
+        float: left;
+        margin-bottom: 2em;
+    }
+
+    .fieldlist {
+        margin: 0 0 -2em;
+        padding: 0;
+    }
+
+        .fieldlist li {
+            list-style: none;
+            padding-bottom: 2em;
+            display:inline-block;
+        }
+
+        .fieldlist label {
+            display: inline-block;
+            padding-bottom: 1em;
+            font-weight: bold;
+            text-transform: uppercase;
+            font-size: 12px;
+            color: #444;
+        }
+</style>
+<title>Register</title>
+
+<div class="demo-section k-content wide" style="padding:20px">
+    <form class="" id="frmLogin">
+        <h3>Check Out</h3>
+        <fieldset>
+            <ul class="fieldlist">
+                <li>
+                    <label class="" for="firstname">First Name</label>
+                    <input class="k-textbox col-md-6" type="text" ng-model="firstname" required id="firstname" />
+                </li>
+                <li>
+                    <label class="" for="lastname">Last Name</label>
+                    <input class="k-textbox col-md-6" type="text" ng-model="lastname" required id="lastname" />
+                </li>
+                <li>
+                    <label class="" for="address">Address</label>
+                    <input class="k-textbox col-md-6" type="text" ng-model="address" required id="address" />
+                </li>
+                <li>
+                    <label class="" for="city">City</label>
+                    <input class="k-textbox col-md-6" type="text" ng-model="city" required id="city" />
+                </li>
+                <li>
+                    <label class="" for="state">State</label>
+                    <input class="k-textbox col-md-6" type="text" ng-model="state" required id="state" />
+                </li>
+                <li>
+                    <label class="" for="postalcode">Postal Code</label>
+                    <input class="k-textbox col-md-6" type="text" ng-model="postalcode" required id="postalcode" />
+                </li>
+                <li>
+                    <label class="" for="country">Country</label>
+                    <input class="k-textbox col-md-6" type="text" ng-model="country" required id="country" />
+                </li>
+                <li>
+                    <label class="" for="phone">Phone</label>
+                    <input class="k-textbox col-md-6" type="text" ng-model="phone" required id="phone" />
+                </li>
+                <li>
+                    <label class="" for="email">email</label>
+                    <input class="k-textbox col-md-6" type="text" ng-model="email" required id="email" />
+                </li>
+            </ul>
+       </fieldset>
+        <fieldset>
+            <ul class="fieldlist">
+                <li>
+                    <label class="" for="promocode">Promo Code</label>
+                    <input class="k-textbox col-md-6" type="text" ng-model="promocode" required id="promocode" />
+                </li>
+
+            </ul>
+        </fieldset>
+        <button type="submit" class="k-button" ng-click="checkout()">Submit</button>
+</form>
+</div>
