@@ -8,7 +8,7 @@ using MusicStore.Service;
 using MusicStore.Repository;
 namespace MusicStore.WebAPI.Controllers
 {
-    [EnableCors(origins: "http://localhost:6225", headers: "*", methods: "*")]
+    [EnableCors(origins: "*", headers: "*", methods: "*")]
     [AllowAnonymous]
     public class GenreController : ApiController
     {

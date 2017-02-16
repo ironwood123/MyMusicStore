@@ -16,7 +16,7 @@ using System.Web.Http.Cors;
 using System.Threading.Tasks;
 namespace MusicStore.WebAPI.Controllers
 {
-    [EnableCors(origins: "http://localhost:6225", headers: "*", methods: "*")]
+    [EnableCors(origins: "*", headers: "*", methods: "*")]
     [AllowAnonymous]
     public class AlbumController : ApiController
     {
@@ -35,6 +35,7 @@ namespace MusicStore.WebAPI.Controllers
             _genreService = new GenreService(new UnitOfWork());
         }
         [HttpGet]
+        [Route("api/Album/albums")]
         public IEnumerable<Album> GetAlbums()
         {
             return _albumService.ListAlbum().ToList();
